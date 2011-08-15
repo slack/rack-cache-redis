@@ -72,6 +72,14 @@ module Rack
           @store.read('/test').should == []
         end
 
+        it 'deletes all entries with #clear' do
+          @store.write('/test1', [[{},{}]])
+          @store.write('/test2', [[{},{}]])
+          @store.clear.should == nil
+          @store.read('/test1').should be_empty
+          @store.read('/test2').should be_empty
+        end
+
         %w[/test http://example.com:8080/ /test?x=y /test?x=y&p=q].each do |key|
           it "can read and write key: '#{key}'" do
             lambda { @store.write(key, [[{},{}]]) }.should_not raise_error

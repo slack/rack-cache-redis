@@ -40,6 +40,11 @@ module Rack
           cache.del key
           nil
         end
+
+        def clear
+          cache.flushdb
+          nil
+        end
       end
 
       REDIS = Redis

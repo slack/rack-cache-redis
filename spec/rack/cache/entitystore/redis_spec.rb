@@ -113,6 +113,14 @@ module Rack
           @store.read(key).should be_nil
         end
 
+        it 'deletes all stored entries with #clear' do
+          key1, size = @store.write(['The devil was wiser'])
+          key2, size = @store.write(['My wild love is crazy'])
+          @store.clear
+          @store.read(key1).should be_nil
+          @store.read(key2).should be_nil
+        end
+
         # Helper Methods =============================================================
 
         define_method :uri do |uri|

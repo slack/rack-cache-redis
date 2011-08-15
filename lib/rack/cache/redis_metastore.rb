@@ -31,6 +31,11 @@ module Rack
           cache.del(hexdigest(key))
           nil
         end
+
+        def clear
+          cache.flushdb
+          nil
+        end
       end
 
       REDIS = Redis
