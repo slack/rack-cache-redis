@@ -18,26 +18,18 @@ class Redis
         options[:namespace] ||= options.delete(:key_prefix) # RailsSessionStore
         options
       else
-        if address_or_options =~ /redis\:\/\//
-          require 'uri'
-          uri = URI.parse address_or_options
-          _, db, namespace = if uri.path
-            uri.path.split /\//
-          end
-        else
-          warn "[DEPRECATION] `#{address_or_options}` is deprecated. Please use `redis://#{address_or_options}` instead."
-          address_or_options, password = address_or_options.split(/\@/).reverse
-          password = password.gsub(/\:/, "") if password
-          host, port = address_or_options.split /\:/
-          port, db, namespace = port.split /\// if port
+        require 'uri'
+        uri = URI.parse address_or_options
+        _, db, namespace = if uri.path
+          uri.path.split /\//
         end
 
         options = {}
-        options[:host] = host || uri && uri.host
-        options[:port] = port || uri && uri.port
-        options[:db]  = db.to_i if db
+        options[:host]      = uri.host
+        options[:port]      = uri.port
+        options[:db]        = db.to_i if db
         options[:namespace] = namespace if namespace
-        options[:password]  = password || uri && uri.password
+        options[:password]  = uri.password
         options
       end
     end
