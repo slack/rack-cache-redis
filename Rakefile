@@ -33,10 +33,4 @@ task :prepare do
   `mkdir -p tmp && rm tmp/*.rdb`
 end
 
-namespace :bundle do
-  task :clean do
-    system "rm -rf ~/.bundle/ ~/.gem/ .bundle/ Gemfile.lock"
-  end
-end
-
 load "tasks/redis.tasks.rb"
