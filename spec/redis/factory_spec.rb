@@ -31,11 +31,6 @@ describe "Redis::Factory" do
         store.to_s.should == "Redis Client connected to 127.0.0.1:6379 against DB 0 with namespace theplaylist"
       end
 
-      it "should allow to specify key_prefix as namespace" do
-        store = Redis::Factory.create :key_prefix => "theplaylist"
-        store.to_s.should == "Redis Client connected to 127.0.0.1:6379 against DB 0 with namespace theplaylist"
-      end
-
       it "should allow to specify marshalling" do
         store = Redis::Factory.create :marshalling => false
         store.instance_variable_get(:@marshalling).should be_false
@@ -88,13 +83,6 @@ describe "Redis::Factory" do
       it "should allow to specify password" do
         store = Redis::Factory.create "redis://:secret@127.0.0.1:6379/0/theplaylist"
         store.instance_variable_get(:@client).password.should == "secret"
-      end
-
-      it "should allow to specify password without scheme" do
-        suppress_warnings do
-          store = Redis::Factory.create ":secret@127.0.0.1:6379/0/theplaylist"
-          store.instance_variable_get(:@client).password.should == "secret"
-        end
       end
 
       it "should instantiate a Redis::DistributedStore store" do

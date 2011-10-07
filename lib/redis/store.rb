@@ -8,10 +8,6 @@ class Redis
       _extend_namespace   options
     end
 
-    def self.rails3? #:nodoc:
-      defined?(::Rails) && ::Rails::VERSION::MAJOR == 3
-    end
-
     def reconnect
       @client.reconnect
     end
@@ -21,14 +17,15 @@ class Redis
     end
 
     private
-      def _extend_marshalling(options)
-        @marshalling = !(options[:marshalling] === false) # HACK - TODO delegate to Factory
-        extend Marshalling if @marshalling
-      end
 
-      def _extend_namespace(options)
-        @namespace = options[:namespace]
-        extend Namespace if @namespace
-      end
+    def _extend_marshalling(options)
+      @marshalling = !(options[:marshalling] === false) # HACK - TODO delegate to Factory
+      extend Marshalling if @marshalling
+    end
+
+    def _extend_namespace(options)
+      @namespace = options[:namespace]
+      extend Namespace if @namespace
+    end
   end
 end
